@@ -24,7 +24,9 @@ export default mongoose.model(
       required: true,
     },
     category: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
     },
     isFeatured: {
       type: Boolean,
