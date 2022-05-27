@@ -2,6 +2,7 @@ import express from "express";
 import database from "./config/config.js";
 import "dotenv/config";
 import categoryRouter from "./routes/categoryRoute.js";
+import { Router } from "express";
 
 const app = express();
 database();

@@ -4,11 +4,6 @@ export default mongoose.model(
   "Category",
   mongoose.Schema(
     {
-      id: {
-        type: String,
-        required: true,
-        unique: true,
-      },
       name: {
         type: String,
         required: true,
