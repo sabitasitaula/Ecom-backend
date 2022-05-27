@@ -1,13 +1,8 @@
 import mongoose from "mongoose";
 
 export default mongoose.model(
-  "productDB",
+  "Product",
   mongoose.Schema({
-    productId: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     name: {
       type: String,
       required: true,
@@ -29,9 +24,7 @@ export default mongoose.model(
       required: true,
     },
     category: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "categoryDB",
-      required: true,
+      type: String,
     },
     isFeatured: {
       type: Boolean,
