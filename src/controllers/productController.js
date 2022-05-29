@@ -11,12 +11,11 @@ export const addProduct = async (req, res) => {
     // bodyValidator(req.body, res);
     let category = await CategoryModel.findOne({ id: req.body.category });
     let { name, description, stockQuantity, price, isFeatured } = req.body;
-    // const fileName = req.file.filename;
-    // const filePath = `/public/uploads/`;
+    const fileName = req.file.filename;
+    const filePath = `/public/uploads/`;
     let productData = await new ProductModel({
       name,
-      // image: `${filePath}${fileName}`,
-      image,
+      image: `${filePath}${fileName}`,
       description,
       stockQuantity,
       price,
