@@ -12,7 +12,7 @@ const apiRoute = Router();
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "Hello from my-express-app!" });
+  res.status(200).send({ message: "Hello from my-express-app!" });
 });
 
 apiRoute
@@ -20,6 +20,9 @@ apiRoute
 
 
 app.use("/api", apiRoute);
+app.use("/*", (req, res) => {
+  res.status(404).send({ message: "error" });
+})
 
 const PORT = process.env.PORT || 6000;
 
