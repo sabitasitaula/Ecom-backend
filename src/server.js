@@ -1,23 +1,23 @@
 import express from "express";
 import database from "./config/config.js";
 import "dotenv/config";
-import categoryRouter from "./routes/categoryRoute.js";
 import { Router } from "express";
+import productRouter from "./routes/productRoute.js";
+import categoryRouter from "./routes/categoryRoute.js";
 
 const app = express();
 database();
 
 const apiRoute = Router();
-
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.status(200).send({ message: "Hello from my-express-app!" });
 });
 
-apiRoute
-  .use("/category", categoryRouter);
-
+apiRoute.use("/product", productRouter);
+console.log("Hello world");
+apiRoute.use("/category", categoryRouter);
 
 app.use("/api", apiRoute);
 app.use("/*", (req, res) => {
