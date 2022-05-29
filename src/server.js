@@ -16,7 +16,6 @@ app.get("/", (req, res) => {
 });
 
 apiRoute.use("/product", productRouter);
-console.log("Hello world");
 apiRoute.use("/category", categoryRouter);
 
 app.use("/api", apiRoute);
