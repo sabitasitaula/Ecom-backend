@@ -42,6 +42,7 @@ export const createCategory = async (req, res) => {
     name,
     quantity,
   });
+  
   try {
     const savedCategory = await categoryModel.save();
     okResponse({ status: 200, data: savedCategory, res });
@@ -52,7 +53,6 @@ export const createCategory = async (req, res) => {
 
 export const getOneCategory = async (req, res) => {
   emptyBodyValidator(req.body, res);
-
   try {
     const { name } = req.query;
     const category = await CategoryModel.find({
@@ -84,12 +84,10 @@ export const editCategory = async (req, res) => {
   try {
     let { categoryId } = req.params;
     let { name, quantity } = req.body;
-    console.log(categoryId);
     let category = {
       name,
       quantity,
     };
-    console.log(category);
     let categoryEdit = await CategoryModel.findByIdAndUpdate(
       { _id: categoryId },
       category
@@ -132,8 +130,6 @@ export const deleteCategory = async (req, res) => {
       });
     }
 
-    // const categoryDelete = await CategoryModel.findByIdAndDelete({ _id: categoryId });
-    // okResponse({ status: 200, data: categoryDelete, res });
   } catch (err) {
     errorResponse({ status: 500, message: err.message, res });
   }
