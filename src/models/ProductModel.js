@@ -6,7 +6,6 @@ export default mongoose.model(
     name: {
       type: String,
       required: true,
-      unique: true,
     },
     image: {
       type: String,

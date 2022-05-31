@@ -8,11 +8,14 @@ import {
 export const addProduct = async (req, res) => {
   try {
     emptyQueryValidator(req.query, res);
-    // bodyValidator(req.body, res);
-    let category = await CategoryModel.findOne({ id: req.body.category });
+
+    let category = await CategoryModel.findById({ _id: req.body.category });
+
     let { name, description, stockQuantity, price, isFeatured } = req.body;
+
     const fileName = req.file.filename;
     const filePath = `/public/uploads/`;
+
     let productData = await new ProductModel({
       name,
       image: `${filePath}${fileName}`,
@@ -34,7 +37,7 @@ export const addProduct = async (req, res) => {
       if (!categoryCount) {
         return errorResponse(400, "Category cannot be updated", res);
       }
-      res.status(200).json({ success: true, data: data });
+      res.status(200).json({ success: true, data: productData });
     }
     if (!productData) {
       return errorResponse(400, "Product page cannot be created", res);
@@ -101,6 +104,33 @@ export const getOneProducts = async (req, res) => {
   }
 };
 
+export const getAllCategoryProduct = async (req, res) => {
+  try {
+    const { pId } = req.params;
+    const category = await CategoryModel.findOne({
+      $and: [{ _id: pId }, { isDeleted: false }],
+    });
+    if (!category) {
+      res.status(404).json({ success: false, message: "category not found" });
+      return;
+    }
+    const product = await ProductModel.find({
+      $and: [{ _id: pId }, { isDeleted: false }],
+    })
+      .select("-isDeleted")
+      .populate("category", "name");
+    if (!product) {
+      res.status(404).json({ success: false, message: "Product not found" });
+      return;
+    }
+    res
+      .status(200)
+      .json({ success: true, count: category.quantity, data: product });
+  } catch (err) {
+    errorResponse({ status: 500, message: err.message, res });
+  }
+};
+
 export const updateProducts = async (req, res) => {
   try {
     let {
@@ -156,7 +186,6 @@ export const deleteProducts = async (req, res) => {
           { _id: productFind.category },
           { quantity: quantity - 1 }
         );
-
         if (category) {
           okResponse({
             status: 200,
